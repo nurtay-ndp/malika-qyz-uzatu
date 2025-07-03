@@ -1900,6 +1900,29 @@
       }, 2000); // задержка 2 секунды
     });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var myAudio = document.getElementById('bg-sound');
+      if (!myAudio) return;
+      myAudio.volume = 0.4;
+
+      // Попытка автозапуска
+      myAudio.play().catch(function() {
+        // Если не удалось — ждём первого взаимодействия пользователя
+        function unlockAudio() {
+          myAudio.play();
+          document.removeEventListener('click', unlockAudio);
+          document.removeEventListener('touchstart', unlockAudio);
+          document.removeEventListener('keydown', unlockAudio);
+          document.removeEventListener('scroll', unlockAudio);
+        }
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('touchstart', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
+        document.addEventListener('scroll', unlockAudio);
+      });
+    });
+    </script>
 </body>
 <!-- Mirrored from invitedesign.kz/malikauzatu-ru by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Jun 2025 15:19:26 GMT -->
 
