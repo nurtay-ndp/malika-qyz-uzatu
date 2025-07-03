@@ -1856,6 +1856,50 @@
       }, 1000);
     });
     </script>
+    <script>
+    // Очень медленная прокрутка вниз (30 секунд) с автозапуском музыки и задержкой 2 секунды перед прокруткой
+    window.addEventListener('DOMContentLoaded', function() {
+      // Попытка автозапуска музыки
+      var myAudio = document.getElementById('bg-sound');
+      if (myAudio) {
+        myAudio.volume = 0.4;
+        myAudio.play().catch(function(e) {
+          // Автозапуск не удался — браузер требует взаимодействия пользователя
+        });
+      }
+
+      // Прокрутка с задержкой 2 секунды
+      const start = window.scrollY || window.pageYOffset;
+      const end = document.body.scrollHeight - window.innerHeight;
+      const duration = 30000; // миллисекунд (30 секунд)
+      let stopped = false;
+      let startTime;
+
+      function stopScroll() {
+        stopped = true;
+      }
+      window.addEventListener('mousedown', stopScroll, { once: true });
+      window.addEventListener('touchstart', stopScroll, { once: true });
+
+      function animateScroll(currentTime) {
+        if (stopped) return;
+        if (!startTime) startTime = currentTime;
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // easeInOut
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : -1 + (4 - 2 * progress) * progress;
+        window.scrollTo(0, start + (end - start) * ease);
+        if (progress < 1 && !stopped) {
+          requestAnimationFrame(animateScroll);
+        }
+      }
+      setTimeout(function() {
+        requestAnimationFrame(animateScroll);
+      }, 2000); // задержка 2 секунды
+    });
+    </script>
 </body>
 <!-- Mirrored from invitedesign.kz/malikauzatu-ru by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Jun 2025 15:19:26 GMT -->
 
