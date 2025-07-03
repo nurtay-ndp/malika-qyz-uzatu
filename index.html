@@ -1923,6 +1923,50 @@
       });
     });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var myAudio = document.getElementById('bg-sound');
+      if (!myAudio) {
+        console.log('Audio element not found.');
+        return;
+      }
+      myAudio.volume = 0.4;
+
+      function tryPlay() {
+        if (myAudio.paused) {
+          myAudio.play().then(() => {
+            removeAll();
+          }).catch(() => {
+            // Если не удалось — ничего не делаем, ждём следующее взаимодействие
+          });
+        } else {
+          removeAll();
+        }
+      }
+
+      function removeAll() {
+        document.removeEventListener('click', tryPlay);
+        document.removeEventListener('touchstart', tryPlay);
+        document.removeEventListener('pointerdown', tryPlay);
+        document.removeEventListener('keydown', tryPlay);
+        document.removeEventListener('scroll', tryPlay);
+        document.body.removeEventListener('click', tryPlay);
+        document.body.removeEventListener('touchstart', tryPlay);
+      }
+
+      // Попытка автозапуска сразу
+      myAudio.play().catch(function() {
+        // Если не удалось — ждём любого взаимодействия пользователя
+        document.addEventListener('click', tryPlay);
+        document.addEventListener('touchstart', tryPlay);
+        document.addEventListener('pointerdown', tryPlay);
+        document.addEventListener('keydown', tryPlay);
+        document.addEventListener('scroll', tryPlay);
+        document.body.addEventListener('click', tryPlay);
+        document.body.addEventListener('touchstart', tryPlay);
+      });
+    });
+    </script>
 </body>
 <!-- Mirrored from invitedesign.kz/malikauzatu-ru by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Jun 2025 15:19:26 GMT -->
 
