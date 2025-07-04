@@ -9,11 +9,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!--metatextblock-->
     <title>Малика Қыз ұзату</title>
-    <meta property="og:url" content="malikauzatu-ru.html" />
+    <meta name="description" content="Қыз ұзату. Малика. 30 августа 2025, Атырау. Приглашение на торжество." />
     <meta property="og:title" content="Малика Қыз ұзату" />
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="Қыз ұзату. Малика. 30 августа 2025, Атырау. Приглашение на торжество." />
+    <meta property="og:image" content="https://optim.tildacdn.pro/tild3737-6661-4336-b531-616464623465/-/resize/820x/-/format/webp/3_1.png.webp" />
+    <meta property="og:url" content="https://invitedesign.kz/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://static.tildacdn.pro/tild3866-3661-4333-b737-373564646235/3_1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Малика Қыз ұзату" />
+    <meta name="twitter:description" content="Қыз ұзату. Малика. 30 августа 2025, Атырау. Приглашение на торжество." />
+    <meta name="twitter:image" content="https://optim.tildacdn.pro/tild3737-6661-4336-b531-616464623465/-/resize/820x/-/format/webp/3_1.png.webp" />
     <link rel="canonical" href="malikauzatu-ru.html"> <!--/metatextblock-->
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="x-dns-prefetch-control" content="on">
@@ -1707,22 +1712,71 @@
                         </audio>
                         <script>
                             $(document).ready(function () {
-                                myAudio = document.getElementById("bg-sound");
-                                let fadeTime = 1;//Врямя смены иконок
-                                myAudio.volume = 0.4;//Задаём громкость
-                                $(".stopbgmusic").hide();
-                                $(".playbgmusic").click(function (e) {
-                                    myAudio.play(); $(this).fadeOut(fadeTime);
+                                var myAudio = document.getElementById("bg-sound");
+                                let fadeTime = 1;
+                                myAudio.volume = 0.4;
+
+                                // Инициализация видимости кнопок
+                                if (!myAudio.paused && !myAudio.ended && myAudio.currentTime > 0) {
+                                    $(".playbgmusic").hide();
+                                    $(".stopbgmusic").show();
+                                } else {
+                                    $(".playbgmusic").show();
+                                    $(".stopbgmusic").hide();
+                                }
+
+                                function showPause() {
+                                    $(".playbgmusic").fadeOut(fadeTime);
                                     $(".stopbgmusic").fadeIn(fadeTime);
-                                })
-                                $(".stopbgmusic").click(function (e) {
-                                    e.preventDefault();
-                                    myAudio.pause(); $(this).fadeOut(fadeTime);
-                                    $(".playbgmusic").fadeIn(fadeTime);
-                                });
-                                $("#bg-sound").on("ended", function () {
+                                }
+                                function showPlay() {
                                     $(".stopbgmusic").fadeOut(fadeTime);
                                     $(".playbgmusic").fadeIn(fadeTime);
+                                }
+
+                                // Синхронизация при ручном клике на иконки
+                                $(".playbgmusic").click(function (e) {
+                                    myAudio.play();
+                                    showPause();
+                                });
+                                $(".stopbgmusic").click(function (e) {
+                                    e.preventDefault();
+                                    myAudio.pause();
+                                    showPlay();
+                                });
+                                $("#bg-sound").on("ended", function () {
+                                    showPlay();
+                                });
+
+                                // Синхронизация при автозапуске по клику на страницу
+                                function tryPlayAndSync() {
+                                    if (myAudio.paused) {
+                                        myAudio.play().then(() => {
+                                            showPause();
+                                            removeAll();
+                                        }).catch(() => {});
+                                    } else {
+                                        showPause();
+                                        removeAll();
+                                    }
+                                }
+                                function removeAll() {
+                                    document.removeEventListener('click', tryPlayAndSync);
+                                    document.removeEventListener('touchstart', tryPlayAndSync);
+                                    document.removeEventListener('pointerdown', tryPlayAndSync);
+                                    document.removeEventListener('keydown', tryPlayAndSync);
+                                    document.removeEventListener('scroll', tryPlayAndSync);
+                                    document.body.removeEventListener('click', tryPlayAndSync);
+                                    document.body.removeEventListener('touchstart', tryPlayAndSync);
+                                }
+                                myAudio.play().then(showPause).catch(function() {
+                                    document.addEventListener('click', tryPlayAndSync);
+                                    document.addEventListener('touchstart', tryPlayAndSync);
+                                    document.addEventListener('pointerdown', tryPlayAndSync);
+                                    document.addEventListener('keydown', tryPlayAndSync);
+                                    document.addEventListener('scroll', tryPlayAndSync);
+                                    document.body.addEventListener('click', tryPlayAndSync);
+                                    document.body.addEventListener('touchstart', tryPlayAndSync);
                                 });
                             });
                         </script>
