@@ -1913,15 +1913,6 @@
     <script>
     // Очень медленная прокрутка вниз (30 секунд) с автозапуском музыки и задержкой 2 секунды перед прокруткой
     window.addEventListener('DOMContentLoaded', function() {
-      // Попытка автозапуска музыки
-      var myAudio = document.getElementById('bg-sound');
-      if (myAudio) {
-        myAudio.volume = 0.4;
-        myAudio.play().catch(function(e) {
-          // Автозапуск не удался — браузер требует взаимодействия пользователя
-        });
-      }
-
       // Прокрутка с задержкой 2 секунды
       const start = window.scrollY || window.pageYOffset;
       const end = document.body.scrollHeight - window.innerHeight;
